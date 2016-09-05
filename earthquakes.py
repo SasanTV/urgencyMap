@@ -13,7 +13,8 @@ API_KEY = "AIzaSyBD3ddBVLm7u9Am0gaO5Yfv4448fRkSJUk"
 
 DEMO = True
 SC = False
-NC = (not SC)
+NC = False #(not SC)
+WA = True
 
 
 import feedparser
@@ -134,6 +135,8 @@ def get_xyz_link(event_id):
             return 'http://earthquake.usgs.gov/earthquakes/shakemap/sc/shake/'+event_id+'/download/grid.xyz.zip'
         elif NC:
             return 'http://earthquake.usgs.gov/earthquakes/shakemap/nc/shake/' + event_id + '/download/grid.xyz.zip'
+        elif WA:
+            return 'http://earthquake.usgs.gov/earthquakes/shakemap/pn/shake/' + event_id + '/download/grid.xyz.zip'
     return 'http://earthquake.usgs.gov/earthquakes/shakemap/global/shake/'+event_id+'/download/grid.xyz.zip'
     
 
@@ -145,8 +148,10 @@ def readRSS (url):
     if DEMO:
         if SC:
             url = "file:///C:/Users/Sasan/Dropbox/MediaQ/codes/demo_sc.atom"
-        else:
+        elif NC:
             url = "file:///C:/Users/Sasan/Dropbox/MediaQ/codes/demo_nc.atom"
+        elif WA:
+            url = "file:///C:/Users/Sasan/Dropbox/MediaQ/codes/demo_wa.atom"
 
     if (POLLING_INTERVAL):
         print ("Polling Interval is: " + str(POLLING_INTERVAL))

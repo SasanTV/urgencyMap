@@ -96,8 +96,8 @@ class Urgency:
                             +' AND [CenLongit]>'+str(MBR.topLeft.lon)+' AND [CenLongit]<'+str(MBR.bottomRight.lon)
         WHERE_MBR_CLAUSE = ' WHERE [Latitude]>' + str(MBR.bottomRight.lat) + ' AND [Latitude]<' + str(MBR.topLeft.lat) \
                            + ' AND [Longitude]>' + str(MBR.topLeft.lon) + ' AND [Longitude]<' + str(MBR.bottomRight.lon)
-        if(state_US == 'CA'):
-            database = '[' + state_US + ']'
+        if(state_US == 'CA' or state_US == 'WA'):
+            database_name = '[' + state_US + ']'
             query = 'SELECT CB.[OBJECTID]'\
                     ',CB.[CensusBlock]'\
                     ',CB.[Tract]'\
@@ -107,8 +107,8 @@ class Urgency:
                     ',CB.[CenLongit]'\
                     ',DB.[Population]' \
                     ',DB.[MedianYearBuilt]'\
-                    ' FROM [CA].[dbo].[hzCensusBlock] as CB'\
-                    ' INNER JOIN [CA].[dbo].[hzDemographicsB] as DB'\
+                    ' FROM ' + database_name + '.[dbo].[hzCensusBlock] as CB'\
+                    ' INNER JOIN ' + database_name + '.[dbo].[hzDemographicsB] as DB'\
                     ' ON CB.CensusBlock=DB.CensusBlock'\
                     + WHERE_MBR_CLAUSE_CEN
             self.cursor.execute(query)
@@ -128,7 +128,7 @@ class Urgency:
                     ',[NumStudents]' \
                     ',[Latitude]' \
                     ',[Longitude]' \
-                    ' FROM [CA].[dbo].[hzSchool]' \
+                    ' FROM ' + database_name + '.[dbo].[hzSchool]' \
                     + WHERE_MBR_CLAUSE
 
             self.cursor.execute(query)
@@ -147,9 +147,9 @@ class Urgency:
                     ',[Traffic]' \
                     ',[Latitude]' \
                     ',[Longitude]'
-            query_from_highway      = ' FROM [CA].[dbo].[hzHighwayBridge]'
-            query_from_railway      = ' FROM [CA].[dbo].[hzRailwayBridge]'
-            query_from_lightrailway = ' FROM [CA].[dbo].[hzLightRailBridge]'
+            query_from_highway      = ' FROM ' + database_name + '.[dbo].[hzHighwayBridge]'
+            query_from_railway      = ' FROM ' + database_name + '.[dbo].[hzRailwayBridge]'
+            query_from_lightrailway = ' FROM ' + database_name + '.[dbo].[hzLightRailBridge]'
 
             query =   query_select + query_from_highway + WHERE_MBR_CLAUSE \
                     + " UNION " \
